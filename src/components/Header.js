@@ -17,16 +17,20 @@ function Header () {
                         </li>
 
                         <li className="nav-item">
-                            <Link to="/Listado" className="navbar-brand text-light">Listado</Link>
+                            <Link to="/listado" className="navbar-brand text-light">Listado</Link>
                         </li>
 
                         <li className="nav-item">
-                            <Link to="/Detalle" className="navbar-brand text-light">Detalle</Link>
+                            <Link to="/favoritos" className="navbar-brand text-light">Favoritos</Link>
+                        </li>
+
+                        {/* <li className="nav-item">
+                            <Link to="/detalle" className="navbar-brand text-light">Detalle</Link>
                         </li>
 
                         <li className="nav-item">
-                            <Link to="/Resultados" className="navbar-brand text-light">Resultados</Link>
-                        </li>
+                            <Link to="/resultados" className="navbar-brand text-light">Resultados</Link>
+                        </li> */}
 
                     </ul>
                 </div>
