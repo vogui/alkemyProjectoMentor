@@ -1,19 +1,19 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
+import { useAppStore } from '../context/AppContext';
 import axios from 'axios';
 
 function Detalle () {
-    let token = sessionStorage.getItem('token');
+    
+    const { id } = useParams()
 
-    let query = new URLSearchParams(window.location.search);
-    let movieID = query.get('movieID');
+    const { token }= useAppStore()
 
     const [movie, setMovie] = useState(null);
 
     useEffect(() => {
-        const endPoint = `https://api.themoviedb.org/3/movie/${movieID}?api_key=caf4001b55b22901275f7a4989c252eb&language=es-ES`        
-        console.log(endPoint);
+        const endPoint = `https://api.themoviedb.org/3/movie/${id}?api_key=caf4001b55b22901275f7a4989c252eb&language=es-ES`        
 
         axios.get(endPoint).then(response => {
             const movieData = response.data;
@@ -22,7 +22,7 @@ function Detalle () {
         .catch(error => {
             console.log(error)
         })
-    }, [movieID])
+    }, [id])
 
     return(
         <>

@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import swAlert from '@sweetalert/with-react';
+import { useAppStore } from '../context/AppContext'
 
-function Resultados (props) {
+function Resultados () {
     let query = new URLSearchParams(window.location.search);
     let keyword = query.get('keyword');
 
-    const [moviesResults, setMoviesResults] = useState([]);
+    const {addOrRemoveFromFavs, moviesResults, setMoviesResults } = useAppStore()
 
     useEffect(() => {
         const endPoint = `https://api.themoviedb.org/3/search/movie?api_key=caf4001b55b22901275f7a4989c252eb&language=es-ES&query=${keyword}`        
@@ -37,12 +38,12 @@ function Resultados (props) {
                             <div className="col-4" key={idx}>
                                 <div className="card my-4">
                                     <img src={`https://image.tmdb.org/t/p/w500/${oneMovie.poster_path}`} className="card-img-top" alt="movie poster"/>
-                                    <button className="fovourite-btn" onClick={props.addOrRemoveFromFavs} data-movie-id={oneMovie.id} >🖤</button>
+                                    <button className="fovourite-btn" onClick={()=>addOrRemoveFromFavs(oneMovie)} data-movie-id={oneMovie.id} >🖤</button>
                                     
                                     <div className="card-body">
                                     <h5 className="card-title">{oneMovie.title.substring(0, 40)}...</h5>
                                     {/* <p className="card-text">{oneMovie.overview.substring(0, 400)}...</p> */}
-                                    <Link to={`/detalle?movieID=${oneMovie.id}`} className="btn btn-success">View detail</Link>
+                                    <Link to={`/detalle/${oneMovie.id}`} className="btn btn-success">View detail</Link>
                                     </div>                   
                                 </div>
                             </div>

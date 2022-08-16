@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {useAppStore}from '../context/AppContext'
 
 //components
 import Buscador from './Buscador';
 
-function Header (props) {
+function Header () {
+    const { favList } = useAppStore()
     return (
         <header>
             <nav className="navbar navbar-expand-lg bg-dark">
@@ -26,7 +28,7 @@ function Header (props) {
 
                         <li className="nav-item d-flex align-items-center">
                             <span className="text-success">
-                                {props.favorites.length > 0 && <>Peliculas en favoritos: {props.favorites.length}</>}
+                                {favList.length > 0 && <>Peliculas en favoritos: {favList.length}</>}
                             </span>
                         </li>
 

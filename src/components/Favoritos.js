@@ -1,23 +1,10 @@
 import React from "react";
 import { Link, Navigate } from 'react-router-dom';
+import { useAppStore } from '../context/AppContext'
 
-function Favoritos(props) {
+function Favoritos() {
 
-    let token = sessionStorage.getItem('token');
-
-    /* const [ favorites, setFavorites ] = useState([]);
-
-    useEffect(() => {
-        const favsInLocal = localStorage.getItem('favs');
-
-        if (favsInLocal !== null) {
-            const favsArray = JSON.parse(favsInLocal);
-            console.log(favsArray);
-            setFavorites(favsArray);
-        }
-    }, []); */
-
-
+    const {token, favList, setFavList , addOrRemoveFromFav } =useAppStore()
 
     return (
         <>
@@ -25,14 +12,14 @@ function Favoritos(props) {
             <h2>Sección de Favoritos</h2>
 
             <div className="row">
-                { !props.favorites.length && <div className="col-12 text-danger">No tienes nada en favoritos</div>}
+                { !favList.length && <div className="col-12 text-danger">No tienes nada en favoritos</div>}
                 {
-                    props.favorites.map((oneMovie, idx) => {
+                    favList.map((oneMovie, idx) => {
                         return(
                             <div className="col-3" key={idx}>
                                 <div className="card my-4">
                                     <img src={oneMovie.imgURL} className="card-img-top" alt="movie poster"/>
-                                    <button className="fovourite-btn" onClick={props.addOrRemoveFromFavs} data-movie-id={oneMovie.id} >🖤</button>
+                                    <button className="fovourite-btn" onClick={(e)=> addOrRemoveFromFav(oneMovie)} data-movie-id={oneMovie.id} >🖤</button>
 
                                     <div className="card-body">
                                     <h5 className="card-title">{oneMovie.title.substring(0, 40)}...</h5>

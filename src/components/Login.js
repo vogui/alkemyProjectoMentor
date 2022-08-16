@@ -2,8 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import swAlert from '@sweetalert/with-react';
 import { useNavigate, Navigate } from 'react-router-dom';
+import { useAppStore }from '../context/AppContext'
 
 function Login() {
+
+   const {token, setToken, setMoviesList} = useAppStore()
 
     const history = useNavigate();
 
@@ -35,12 +38,23 @@ function Login() {
         .then(res => {
             swAlert(<h2>Perfecto, ingresaste correctamente</h2>)
             const tokenRecibido = res.data.token;
+            setToken(tokenRecibido);
             sessionStorage.setItem('token', tokenRecibido);
+                const endPoint = "https://api.themoviedb.org/3/discover/movie?api_key=caf4001b55b22901275f7a4989c252eb&language=es-ES&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
+                 axios.get(endPoint)
+                     .then(response => {
+                     const apiData = response.data;
+                        setMoviesList(apiData.results);
+        
+                        console.log(apiData);
+                    })
+                    .catch(error => {
+                       swAlert(<h2>Hubo errores, intenta más tarde</h2>)
+                    })
             history("/listado");
         })
 
 }
-    let token = sessionStorage.getItem('token');
 
     return (
         <>
