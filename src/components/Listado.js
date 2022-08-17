@@ -1,31 +1,21 @@
 import React from 'react';
-import axios from 'axios';
-import swAlert from '@sweetalert/with-react';
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchGetMovies }from '../redux/store/slices/movies'
 
 
 function Listado (props) {
     let token = sessionStorage.getItem('token');
+    
+    const dispatch = useDispatch()
+    const {moviesList} = useSelector(state => state.movies)
+    const state = useSelector(state => state)
+    console.log({moviesList, state})
 
-    console.log(props);
-
-    const [moviesList, setMoviesList] = useState([]);
+    useEffect(()=>{dispatch(fetchGetMovies())},[dispatch])
  
-    useEffect(() => {
-        const endPoint = "https://api.themoviedb.org/3/discover/movie?api_key=caf4001b55b22901275f7a4989c252eb&language=es-ES&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
-        axios.get(endPoint)
-            .then(response => {
-                const apiData = response.data;
-                setMoviesList(apiData.results);
-
-                console.log(apiData);
-            })
-            .catch(error => {
-                swAlert(<h2>Hubo errores, intenta más tarde</h2>)
-            })
-    }, [setMoviesList])
-
+    
     return (
         <>
             { !token && <Navigate to="/"/> }

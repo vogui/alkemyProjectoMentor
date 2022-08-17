@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import axios from 'axios';
 import swAlert from '@sweetalert/with-react';
 import { useNavigate, Navigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+
 
 function Login() {
 
     const history = useNavigate();
+    const dispatch = useDispatch();
 
     const submitHandler = e => {
     e.preventDefault();
@@ -38,8 +41,9 @@ function Login() {
             sessionStorage.setItem('token', tokenRecibido);
             history("/listado");
         })
-
 }
+ 
+    
     let token = sessionStorage.getItem('token');
 
     return (

@@ -1,0 +1,2 @@
+export const endPoint =
+"https://api.themoviedb.org/3/discover/movie?api_key=caf4001b55b22901275f7a4989c252eb&language=es-ES&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate";
