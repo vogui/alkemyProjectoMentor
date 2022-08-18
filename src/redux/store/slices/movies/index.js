@@ -17,10 +17,14 @@ export const moviesSlice = createSlice({
     moviesL: (state, {payload}) => {
       return {...state, moviesList:payload};
     },
+    addFav: (state, { payload }) => {
+      console.log({payload})
+      return {...state, favList:payload};
+    }
   },
 });
 
-export const { moviesL } = moviesSlice.actions;
+export const { moviesL, addFav } = moviesSlice.actions;
 
 export default moviesSlice.reducer;
 
@@ -36,4 +40,42 @@ export const fetchGetMovies = () => (dispatch) => {
       swAlert(<h2>Hubo errores, intenta más tarde</h2>);
     });
 };
+
+export const addOrRemoveFromFav = (movie)=> (dispatch) => {
+  const favMovies = localStorage.getItem("favs");
+
+  let tempMoviesInFavs;
+
+  if (favMovies === null) {
+    tempMoviesInFavs = [];
+  } else {
+    tempMoviesInFavs = JSON.parse(favMovies);
+  }
+  const movieData = {
+    imgURL:`https://image.tmdb.org/t/p/w500/${movie.poster_path}`, 
+    title : movie.title, 
+    overview : movie.overview,
+    id: movie.id
+  }
+
+  let movieIsInArray = tempMoviesInFavs.find(oneMovie => {
+    return oneMovie.id === movieData.id
+  });
+
+  if (!movieIsInArray) {
+    tempMoviesInFavs.push(movieData);
+    localStorage.setItem('favs', JSON.stringify(tempMoviesInFavs));  
+    dispatch(addFav(tempMoviesInFavs));
+    swAlert("Se agregó la pelicula a favoritos","success"); 
+  }else{
+    let moviesLeft = tempMoviesInFavs.filter(oneMovie => {
+      return oneMovie.id !== movieData.id
+    });
+    localStorage.setItem('favs', JSON.stringify(moviesLeft));
+    dispatch(addFav(moviesLeft));
+    swAlert("Se eliminó la pelicula a favoritos","success");
+  }
+}
+
+
 
